@@ -10,6 +10,9 @@ detection:
   # Automatically remove suspicious containers when opened
   auto-remove-container: false
 
+  # Inventory scan interval in seconds (default: 5)
+  scan-interval-seconds: 5
+
 auto-ban:
   # Enable automatic temporary banning
   enabled: true

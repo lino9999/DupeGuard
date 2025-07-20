@@ -62,7 +62,8 @@ public class DupeGuard extends JavaPlugin {
     }
 
     private void startTasks() {
-        new InventoryCheckTask(this).runTaskTimer(this, 20L, 20L);
+        long intervalTicks = configManager.getScanInterval() * 20L;
+        new InventoryCheckTask(this).runTaskTimer(this, intervalTicks, intervalTicks);
     }
 
     public void reloadPlugin() {

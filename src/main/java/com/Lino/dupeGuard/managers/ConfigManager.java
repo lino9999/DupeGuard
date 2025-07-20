@@ -15,6 +15,7 @@ public class ConfigManager {
     private String banMessage;
     private String alertMessage;
     private boolean autoRemoveContainer;
+    private int scanInterval;
 
     public ConfigManager(DupeGuard plugin) {
         this.plugin = plugin;
@@ -32,6 +33,7 @@ public class ConfigManager {
         banMessage = config.getString("messages.ban-message", "You have been temporarily banned for suspicious item duplication!");
         alertMessage = config.getString("messages.alert-message", "&c[DupeGuard] &ePlayer &6%player% &ehas &6%amount% &eof &6%item% &e(Limit: %limit%)");
         autoRemoveContainer = config.getBoolean("detection.auto-remove-container", false);
+        scanInterval = config.getInt("detection.scan-interval-seconds", 5);
 
         createDefaultConfig();
     }
@@ -40,6 +42,7 @@ public class ConfigManager {
         config.addDefault("detection.max-items-before-alert", 64);
         config.addDefault("detection.max-items-before-ban", 256);
         config.addDefault("detection.auto-remove-container", false);
+        config.addDefault("detection.scan-interval-seconds", 5);
         config.addDefault("auto-ban.enabled", true);
         config.addDefault("auto-ban.duration-minutes", 60);
         config.addDefault("messages.ban-message", "You have been temporarily banned for suspicious item duplication!");
@@ -74,5 +77,9 @@ public class ConfigManager {
 
     public boolean isAutoRemoveContainer() {
         return autoRemoveContainer;
+    }
+
+    public int getScanInterval() {
+        return scanInterval;
     }
 }
