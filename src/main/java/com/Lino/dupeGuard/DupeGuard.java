@@ -1,6 +1,7 @@
 package com.Lino.dupeGuard;
 
 import com.Lino.dupeGuard.managers.*;
+import com.Lino.dupeGuard.listeners.ContainerListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.Lino.dupeGuard.commands.DupeGuardCommand;
 import com.Lino.dupeGuard.commands.DupeGuardTabCompleter;
@@ -22,6 +23,7 @@ public class DupeGuard extends JavaPlugin {
 
         initializeManagers();
         registerCommands();
+        registerListeners();
         startTasks();
 
         getLogger().info("DupeGuard has been enabled!");
@@ -53,6 +55,10 @@ public class DupeGuard extends JavaPlugin {
         getCommand("dupeguard").setTabCompleter(tabCompleter);
         getCommand("dg").setExecutor(commandExecutor);
         getCommand("dg").setTabCompleter(tabCompleter);
+    }
+
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new ContainerListener(this), this);
     }
 
     private void startTasks() {

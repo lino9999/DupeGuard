@@ -15,14 +15,19 @@ public class LogManager {
 
     public LogManager(DupeGuard plugin) {
         this.plugin = plugin;
-        this.logFile = new File(plugin.getDataFolder(), "bans.log");
         this.dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        if (!plugin.getDataFolder().exists()) {
+            plugin.getDataFolder().mkdirs();
+        }
+
+        this.logFile = new File(plugin.getDataFolder(), "bans.log");
 
         if (!logFile.exists()) {
             try {
                 logFile.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                plugin.getLogger().severe("Failed to create ban log file: " + e.getMessage());
             }
         }
     }

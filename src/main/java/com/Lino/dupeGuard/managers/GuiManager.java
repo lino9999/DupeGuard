@@ -80,42 +80,36 @@ public class GuiManager implements Listener {
 
         int slot = event.getRawSlot();
 
+
         if (slot == 49) {
             event.setCancelled(true);
             saveAndReload(player);
         } else if (slot == 53) {
             event.setCancelled(true);
             clearAllItems(inventory);
+            plugin.getItemManager().clearItems();
+            plugin.getItemManager().saveItems();
             player.sendMessage(MessageUtils.colorize("&cAll monitored items have been cleared!"));
         } else if (slot == 45) {
             event.setCancelled(true);
         } else if (slot < 45) {
             ItemStack clickedItem = event.getCurrentItem();
-            ItemStack cursorItem = event.getCursor();
 
-            if (clickedItem == null || clickedItem.getType() == Material.AIR) {
-                if (cursorItem != null && cursorItem.getType() != Material.AIR) {
+            if (clickedItem != null && clickedItem.getType() != Material.AIR) {
+                // Remove item on left click
+                if (event.isLeftClick()) {
                     event.setCancelled(true);
-                    inventory.setItem(slot, cursorItem.clone());
-                    player.setItemOnCursor(null);
-                }
-            } else {
-                event.setCancelled(true);
-                inventory.setItem(slot, null);
-                player.sendMessage(MessageUtils.colorize("&eItem removed from monitoring list."));
-            }
-        } else if (slot >= 54) {
-            ItemStack cursorItem = event.getCursor();
-            if (cursorItem != null && cursorItem.getType() != Material.AIR) {
-                for (int i = 0; i < 45; i++) {
-                    if (inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR) {
-                        inventory.setItem(i, cursorItem.clone());
-                        player.setItemOnCursor(null);
-                        break;
-                    }
+                    inventory.setItem(slot, null);
+                    player.sendMessage(MessageUtils.colorize("&eItem removed from monitoring list."));
+                } else {
+                    event.setCancelled(true);
                 }
             }
+        } else if (slot >= 45 && slot < 54) {
+
+            event.setCancelled(true);
         }
+
     }
 
     @EventHandler

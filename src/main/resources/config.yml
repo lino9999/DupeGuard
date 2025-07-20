@@ -7,6 +7,9 @@ detection:
   # Maximum number of items before auto-banning the player
   max-items-before-ban: 256
 
+  # Automatically remove suspicious containers when opened
+  auto-remove-container: false
+
 auto-ban:
   # Enable automatic temporary banning
   enabled: true
