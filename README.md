@@ -1,4 +1,4 @@
-# DupeGuard - Minecraft Spigot Plugin
+# DupeGuard
 
 Advanced item duplication detection and prevention plugin for Spigot 1.20+
 
