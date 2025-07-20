@@ -1,0 +1,28 @@
+name: DupeGuard
+version: '1.0'
+main: com.Lino.dupeGuard.DupeGuard
+api-version: '1.21'
+author: Lino
+description: Advanced item duplication detection and prevention plugin
+
+commands:
+  dupeguard:
+    description: Main DupeGuard command
+    usage: /<command> [edit|reload|list]
+    permission: dupeguard.admin
+    aliases: [dg]
+  dg:
+    description: DupeGuard alias
+    usage: /<command> [edit|reload|list]
+    permission: dupeguard.admin
+
+permissions:
+  dupeguard.admin:
+    description: Access to all DupeGuard admin commands
+    default: op
+  dupeguard.alert:
+    description: Receive alerts about potential duplication
+    default: op
+  dupeguard.bypass:
+    description: Bypass duplication checks
+    default: false

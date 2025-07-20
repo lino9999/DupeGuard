@@ -1,0 +1,22 @@
+# DupeGuard Configuration
+
+detection:
+  # Maximum number of items before sending an alert to admins
+  max-items-before-alert: 64
+
+  # Maximum number of items before auto-banning the player
+  max-items-before-ban: 256
+
+auto-ban:
+  # Enable automatic temporary banning
+  enabled: true
+
+  # Ban duration in minutes
+  duration-minutes: 60
+
+messages:
+  # Message shown when a player is banned
+  ban-message: "You have been temporarily banned for suspicious item duplication!"
+
+  # Alert message sent to admins (supports placeholders: %player%, %amount%, %item%, %limit%)
+  alert-message: "&c[DupeGuard] &ePlayer &6%player% &ehas &6%amount% &eof &6%item% &e(Limit: %limit%)"
