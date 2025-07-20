@@ -1,6 +1,7 @@
 package com.Lino.dupeGuard.tasks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -75,9 +76,11 @@ public class InventoryCheckTask extends BukkitRunnable {
         for (Player admin : Bukkit.getOnlinePlayers()) {
             if (admin.hasPermission("dupeguard.alert")) {
                 admin.sendMessage(MessageUtils.colorize(message));
+                admin.playSound(admin.getLocation(), Sound.BLOCK_BELL_RESONATE, 1.0f, 1.0f);
             }
         }
 
         plugin.getPlayerDataManager().recordViolation(player.getUniqueId(), item, count);
+        plugin.getLogManager().logAlert(player.getName(), itemName, count);
     }
 }

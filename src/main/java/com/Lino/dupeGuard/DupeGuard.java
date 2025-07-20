@@ -3,6 +3,7 @@ package com.Lino.dupeGuard;
 import com.Lino.dupeGuard.managers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.Lino.dupeGuard.commands.DupeGuardCommand;
+import com.Lino.dupeGuard.commands.DupeGuardTabCompleter;
 import com.Lino.dupeGuard.tasks.InventoryCheckTask;
 
 public class DupeGuard extends JavaPlugin {
@@ -45,8 +46,13 @@ public class DupeGuard extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("dupeguard").setExecutor(new DupeGuardCommand(this));
-        getCommand("dg").setExecutor(new DupeGuardCommand(this));
+        DupeGuardCommand commandExecutor = new DupeGuardCommand(this);
+        DupeGuardTabCompleter tabCompleter = new DupeGuardTabCompleter();
+
+        getCommand("dupeguard").setExecutor(commandExecutor);
+        getCommand("dupeguard").setTabCompleter(tabCompleter);
+        getCommand("dg").setExecutor(commandExecutor);
+        getCommand("dg").setTabCompleter(tabCompleter);
     }
 
     private void startTasks() {
