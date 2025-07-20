@@ -55,30 +55,6 @@ messages:
 3. Click the emerald block to save and reload
 4. The plugin will now monitor all players for those items
 
-## File Structure
-
-```
-plugins/
-└── DupeGuard/
-    ├── config.yml     # Main configuration
-    ├── items.yml      # Monitored items storage
-    └── bans.log       # Ban history log
-```
-
-## Building from Source
-
-Requirements:
-- Java 17+
-- Gradle 7+
-
-```bash
-git clone <repository>
-cd DupeGuard
-gradle build
-```
-
-The compiled JAR will be in `build/libs/`
-
 ## Performance Notes
 
 - Optimized for servers with 100+ players
@@ -86,6 +62,3 @@ The compiled JAR will be in `build/libs/`
 - Implements smart caching to reduce overhead
 - Asynchronous operations where possible
 
-## Support
-
-For issues or feature requests, please use the issue tracker.
