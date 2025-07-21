@@ -21,7 +21,7 @@ detection:
 
 auto-ban:
   # Enable automatic temporary banning
-  enabled: false
+  enabled: true
 
   # Ban duration in minutes
   duration-minutes: 160
