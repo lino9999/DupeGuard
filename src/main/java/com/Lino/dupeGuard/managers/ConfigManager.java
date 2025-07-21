@@ -16,6 +16,8 @@ public class ConfigManager {
     private String alertMessage;
     private boolean autoRemoveContainer;
     private int scanInterval;
+    private int playersPerScan;
+    private int containerCacheMinutes;
 
     public ConfigManager(DupeGuard plugin) {
         this.plugin = plugin;
@@ -34,6 +36,8 @@ public class ConfigManager {
         alertMessage = config.getString("messages.alert-message", "&c[DupeGuard] &ePlayer &6%player% &ehas &6%amount% &eof &6%item% &e(Limit: %limit%)");
         autoRemoveContainer = config.getBoolean("detection.auto-remove-container", false);
         scanInterval = config.getInt("detection.scan-interval-seconds", 5);
+        playersPerScan = config.getInt("detection.players-per-scan", 1);
+        containerCacheMinutes = config.getInt("detection.container-cache-minutes", 5);
 
         createDefaultConfig();
     }
@@ -43,6 +47,8 @@ public class ConfigManager {
         config.addDefault("detection.max-items-before-ban", 256);
         config.addDefault("detection.auto-remove-container", false);
         config.addDefault("detection.scan-interval-seconds", 5);
+        config.addDefault("detection.players-per-scan", 1);
+        config.addDefault("detection.container-cache-minutes", 5);
         config.addDefault("auto-ban.enabled", true);
         config.addDefault("auto-ban.duration-minutes", 60);
         config.addDefault("messages.ban-message", "You have been temporarily banned for suspicious item duplication!");
@@ -81,5 +87,13 @@ public class ConfigManager {
 
     public int getScanInterval() {
         return scanInterval;
+    }
+
+    public int getPlayersPerScan() {
+        return playersPerScan;
+    }
+
+    public int getContainerCacheMinutes() {
+        return containerCacheMinutes;
     }
 }

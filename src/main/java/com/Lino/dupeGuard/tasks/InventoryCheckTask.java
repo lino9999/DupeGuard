@@ -14,10 +14,14 @@ public class InventoryCheckTask extends BukkitRunnable {
 
     private final DupeGuard plugin;
     private final Map<UUID, Map<ItemStack, Long>> lastAlerts;
+    private final List<UUID> playerQueue;
+    private int currentIndex;
 
     public InventoryCheckTask(DupeGuard plugin) {
         this.plugin = plugin;
         this.lastAlerts = new HashMap<>();
+        this.playerQueue = new ArrayList<>();
+        this.currentIndex = 0;
     }
 
     @Override
@@ -28,10 +32,44 @@ public class InventoryCheckTask extends BukkitRunnable {
         Set<ItemStack> monitoredItems = plugin.getItemManager().getMonitoredItems();
         if (monitoredItems.isEmpty()) return;
 
-        for (Player player : onlinePlayers) {
-            if (player.hasPermission("dupeguard.bypass")) continue;
+        updatePlayerQueue(onlinePlayers);
 
-            checkPlayerInventory(player, monitoredItems);
+        if (playerQueue.isEmpty()) return;
+
+        int playersToScan = plugin.getConfigManager().getPlayersPerScan();
+        int scanned = 0;
+
+        while (scanned < playersToScan && !playerQueue.isEmpty()) {
+            if (currentIndex >= playerQueue.size()) {
+                currentIndex = 0;
+            }
+
+            UUID playerUUID = playerQueue.get(currentIndex);
+            Player player = Bukkit.getPlayer(playerUUID);
+
+            if (player != null && player.isOnline()) {
+                if (!player.hasPermission("dupeguard.bypass")) {
+                    checkPlayerInventory(player, monitoredItems);
+                }
+                scanned++;
+            }
+
+            currentIndex++;
+        }
+    }
+
+    private void updatePlayerQueue(Collection<? extends Player> onlinePlayers) {
+        List<UUID> currentPlayers = new ArrayList<>();
+        for (Player player : onlinePlayers) {
+            currentPlayers.add(player.getUniqueId());
+        }
+
+        playerQueue.removeIf(uuid -> !currentPlayers.contains(uuid));
+
+        for (UUID uuid : currentPlayers) {
+            if (!playerQueue.contains(uuid)) {
+                playerQueue.add(uuid);
+            }
         }
     }
 
@@ -56,6 +94,7 @@ public class InventoryCheckTask extends BukkitRunnable {
                     plugin.getBanManager().banPlayer(player, monitoredItem, count);
                     plugin.getPlayerDataManager().clearPlayerData(player.getUniqueId());
                     lastAlerts.remove(player.getUniqueId());
+                    playerQueue.remove(player.getUniqueId());
                     break;
                 }
             }

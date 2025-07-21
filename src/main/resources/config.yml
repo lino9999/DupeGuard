@@ -13,6 +13,12 @@ detection:
   # Inventory scan interval in seconds (default: 10)
   scan-interval-seconds: 10
 
+  # Number of players to scan per interval (default: 3)
+  players-per-scan: 3
+
+  # Container scan cache duration in minutes (default: 5)
+  container-cache-minutes: 5
+
 auto-ban:
   # Enable automatic temporary banning
   enabled: true

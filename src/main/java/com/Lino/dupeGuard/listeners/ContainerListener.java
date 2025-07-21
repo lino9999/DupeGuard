@@ -18,14 +18,18 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ContainerListener implements Listener {
 
     private final DupeGuard plugin;
+    private final Map<Location, Long> containerScanCache;
 
     public ContainerListener(DupeGuard plugin) {
         this.plugin = plugin;
+        this.containerScanCache = new ConcurrentHashMap<>();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -45,8 +49,45 @@ public class ContainerListener implements Listener {
                 (inventory.getHolder() instanceof Container);
 
         if (isContainer) {
+            Location containerLoc = getContainerLocation(inventory);
+
+            if (containerLoc != null) {
+                Long lastScan = containerScanCache.get(containerLoc);
+                long currentTime = System.currentTimeMillis();
+                long cacheTime = plugin.getConfigManager().getContainerCacheMinutes() * 60 * 1000L;
+
+                if (lastScan != null && (currentTime - lastScan) < cacheTime) {
+                    return;
+                }
+
+                cleanupCache();
+            }
+
             checkContainerItems(player, inventory, event);
+
+            if (containerLoc != null) {
+                containerScanCache.put(containerLoc, System.currentTimeMillis());
+            }
         }
+    }
+
+    private Location getContainerLocation(Inventory inventory) {
+        if (inventory.getHolder() instanceof Container) {
+            Container container = (Container) inventory.getHolder();
+            return container.getLocation();
+        } else if (inventory.getLocation() != null) {
+            return inventory.getLocation();
+        }
+        return null;
+    }
+
+    private void cleanupCache() {
+        long currentTime = System.currentTimeMillis();
+        long cacheTime = plugin.getConfigManager().getContainerCacheMinutes() * 60 * 1000L;
+
+        containerScanCache.entrySet().removeIf(entry ->
+                (currentTime - entry.getValue()) > cacheTime
+        );
     }
 
     private boolean isContainer(InventoryType type) {
