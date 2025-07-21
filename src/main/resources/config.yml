@@ -2,7 +2,7 @@
 
 detection:
   # Maximum number of items before sending an alert to admins
-  max-items-before-alert: 64
+  max-items-before-alert: 128
 
   # Maximum number of items before auto-banning the player
   max-items-before-ban: 256
@@ -21,10 +21,10 @@ detection:
 
 auto-ban:
   # Enable automatic temporary banning
-  enabled: true
+  enabled: false
 
   # Ban duration in minutes
-  duration-minutes: 60
+  duration-minutes: 160
 
 messages:
   # Message shown when a player is banned
