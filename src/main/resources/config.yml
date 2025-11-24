@@ -1,34 +1,11 @@
-# DupeGuard Configuration
+# DupeGuard Lite Configuration
 
 detection:
-  # Maximum number of items before sending an alert to admins
-  max-items-before-alert: 128
-
-  # Maximum number of items before auto-banning the player
-  max-items-before-ban: 256
-
-  # Automatically remove suspicious containers when opened
-  auto-remove-container: false
-
-  # Inventory scan interval in seconds (default: 10)
-  scan-interval-seconds: 10
-
-  # Number of players to scan per interval (default: 3)
-  players-per-scan: 3
-
-  # Container scan cache duration in minutes (default: 5)
-  container-cache-minutes: 5
-
-auto-ban:
-  # Enable automatic temporary banning
-  enabled: true
-
-  # Ban duration in minutes
-  duration-minutes: 160
+  # How many similar items trigger an alert?
+  max-items-before-alert: 64
 
 messages:
-  # Message shown when a player is banned
-  ban-message: "You have been temporarily banned for suspicious item duplication!"
+  # Placeholders: %player%, %amount%, %item%
+  alert-message: "&c[DupeGuard] &eALERT: Player &6%player% &ehas &c%amount% &eof &6%item%&e!"
 
-  # Alert message sent to admins (supports placeholders: %player%, %amount%, %item%, %limit%)
-  alert-message: "&c[DupeGuard] &ePlayer &6%player% &ehas &6%amount% &eof &6%item% &e(Limit: %limit%)"
+debug: false
